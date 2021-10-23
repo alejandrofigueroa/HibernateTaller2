@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Tabla Bancos</title>
+    </h:head>
+    <h:body>
+        
+        
+        <h:form>
+            <p:commandButton value="Agregar Usuario" actionListener="#{usuarioController.limpiarUsuarios()}" oncomplete="PF('dialogoAgregar').show();" update=":formAgregar"/>
+            <p:separator/>
+        </h:form>
+        
+         <h:form id="formListado">
+             <p:dataTable id="tablaBancos" paginator="true" paginatorPosition="bottom" rows="10" var="usuario" value="#{usuarioController.listaUsuarioss}" emptyMessage="No existen usuarios">
+                            <p:column headerText="# Usuario">
+                                <h:outputText value="#{usuario.usuarioId}" />
+                            </p:column>
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{usuario.nombre}" />
+                            </p:column>
+                            <p:column headerText="Apellido">
+                                <h:outputText value="#{usuario.apellido}" />
+                            </p:column>
+                            <p:column headerText="Username">
+                                <h:outputText value="#{usuario.username}" />
+                            </p:column>
+                            <p:column headerText="Password">
+                                <h:outputText value="#{usuario.password}" />
+                            </p:column>
+                            <p:column headerText="Rol">
+                                <h:outputText value="#{usuario.rol}" />
+                            </p:column>
+                 
+                            <p:column headerText="MODIFICAR" style="text-align: center">
+                                <p:commandButton icon="ui-icon-pencil" title="Modificar" oncomplete="PF('dialogoModificar').show();" update=":formModificar">
+                                    <f:setPropertyActionListener target="#{usuarioController.usuarios}" value="#{usuario}"/>
+                                </p:commandButton>
+                            </p:column>
+                            <p:column headerText="ELIMINAR" style="text-align: center">
+                                <p:commandButton icon="ui-icon-trash" title="Eliminar" oncomplete="PF('dialogoEliminar').show();" update=":formEliminar">
+                                    <f:setPropertyActionListener target="#{usuarioController.usuarios}" value="#{usuario}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+        
+        
+        <h:form id="formAgregar">
+                        <p:dialog id="dlgAgregar" header="Agregar Usuario" widgetVar="dialogoAgregar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                            <p:panelGrid columns="2" style="margin: 0 auto;">                                
+                                <p:outputLabel value="Nombre:"/>
+                                <p:inputText value="#{usuarioController.usuarios.nombre}"/>
+                                <p:outputLabel value="Apellido:"/>
+                                <p:inputText value="#{usuarioController.usuarios.apellido}"/>
+                                <p:outputLabel value="Username:"/>
+                                <p:inputText value="#{usuarioController.usuarios.username}"/>
+                                <p:outputLabel value="Password:"/>
+                                <p:inputText value="#{usuarioController.usuarios.password}"/>
+                                <p:outputLabel value="Rol:"/>
+                                <p:inputText value="#{usuarioController.usuarios.rol}"/>
+                            </p:panelGrid>
+                            <p:commandButton  value="Guardar" actionListener="#{usuarioController.agregarUsuarios()}" update=":formListado:tablaBancos" oncomplete="PF('dialogoAgregar').hide();"/>
+                            <p:commandButton  value="Cancelar" onclick="PF('dialogoAgregar').hide();"/>
+                        </p:dialog>
+                    </h:form>
+
+                    <h:form id="formModificar">
+                        <p:dialog id="dlgModificar" header="Modificar Usuario" widgetVar="dialogoModificar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                            <p:panelGrid columns="2" style="margin: 0 auto;">                                
+                                <p:outputLabel value="Nombre:"/>
+                                <p:inputText value="#{usuarioController.usuarios.nombre}"/>
+                                <p:outputLabel value="Apellido:"/>
+                                <p:inputText value="#{usuarioController.usuarios.apellido}"/>
+                                <p:outputLabel value="Username:"/>
+                                <p:inputText value="#{usuarioController.usuarios.username}"/>
+                                <p:outputLabel value="Password:"/>
+                                <p:inputText value="#{usuarioController.usuarios.password}"/>
+                                <p:outputLabel value="Rol:"/>
+                                <p:inputText value="#{usuarioController.usuarios.rol}"/>
+                                
+                            </p:panelGrid>
+                            <p:commandButton  value="Guardar" actionListener="#{usuarioController.modificarUsuarios()}" update=":formListado:tablaBancos" oncomplete="PF('dialogoModificar').hide();"/>
+                            <p:commandButton  value="Cancelar" onclick="PF('dialogoModificar').hide();"/>
+                        </p:dialog>
+                    </h:form>
+
+                    <h:form id="formEliminar">
+                        <p:dialog id="dlgEliminar" header="Eliminar Usuario" widgetVar="dialogoEliminar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                            <h:outputText value="Desea eliminar este registro?"/>
+                            <p:commandButton  value="Si" actionListener="#{usuarioController.eliminarUsuarios()}" update=":formListado:tablaBancos" oncomplete="PF('dialogoEliminar').hide();"/>
+                            <p:commandButton  value="No" onclick="PF('dialogoEliminar').hide();"/>
+                        </p:dialog>
+                    </h:form>
+        
+    </h:body>
+</html>
+
